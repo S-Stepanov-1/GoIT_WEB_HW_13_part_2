@@ -1,0 +1,35 @@
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+
+    <div class="author-details">
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                {% if "http" in author.photo.url %}
+                    <img src="{{ author.photo }}" class="img-thumbnail mb-3" alt="{{ author.fullname }}">
+                {% else %}
+                    <img src="{{ author.photo.url }}" class="img-thumbnail mb-3" alt="{{ author.fullname }}">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <div class="d-flex align-items-center justify-content-between">
+                <h3 class="author-title">{{ author.fullname }}</h3>
+
+                </div>
+                <p>
+                <strong>Born:</strong>
+                <span class="author-born-date">{{ author.born_date }} - </span>
+                <span class="author-born-location">{{ author.born_location }}</span>
+                </p>
+                <p>
+                    <strong>Biography:</strong>
+                    <span>{{ author.description }} </span>
+                </p>
+
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
