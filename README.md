@@ -1,5 +1,6 @@
-# GoIT_WEB_HW_10
-Individual homework №10 at GoIT school - copy of website [**`quotes.toscrape.com`**](http://quotes.toscrape.com/).
+# GoIT_WEB_HW_13_part_2
+Individual homework №13 at GoIT school - copy of website [**`quotes.toscrape.com`**](http://quotes.toscrape.com/).
+
 
 <div>
   <a href="https://www.python.org" target="_blank">
@@ -15,7 +16,7 @@ Individual homework №10 at GoIT school - copy of website [**`quotes.toscrape.c
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://www.mongodb.com" target="_blank">
-    <img src="https://webassets.mongodb.com/_com_assets/cms/mongodb-for-github-9y0b6lr2pu.png" alt="MongoDB" height="30">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/2560px-MongoDB_Logo.svg.png" alt="MongoDB" height="30">
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://getbootstrap.com" target="_blank">
@@ -30,54 +31,48 @@ Individual homework №10 at GoIT school - copy of website [**`quotes.toscrape.c
 
 ## Description 
 
-In the course of completing the individual work, tasks such as: 
-
-• registering on the site and logging in to the site;
-
-• adding a new author to the site, only for a registered user;
-
-• being able to add a new quote to the site, with author, for a registered user only;
-
-• migration of database from MongoDB to Postgres;
-
-• without user authentication it is possible to view citations and information about all authors;
-
-• search for quotes by tags - when clicking on a tag, the list of quotes with this tag is displayed;
-
-• implemented "Top Ten tags" block and output the most popular tags;
-
-• pagination is implemented.
-
+This work is a continuation of the GoIT_WEB_HW_10 project. This part implements the mechanism of password reset for registered users. Also all sensitive data such as passwords and keys are stored in environment variables.
+Please visit this project kickoff page to keep up to date with the project's features [GoIT_WEB_HW_10](https://github.com/S-Stepanov-1/GoIT_WEB_HW_10.git)
 
 ## Running the program
 
-Before we start, we should make sure we have a **`MongoDB`** database with the authors and quotes collections already created. You can find information about connecting to MongoDB in individual activity №9. Parsing the site and saving the data to MongoDB was done in [individual work #9](https://github.com/S-Stepanov-1/GoIT_WEB_HW_9.git). This is necessary for filling the site with data. But you can do without it. In this case the site will be empty, but you will still be able to add authors and quotes to it.
-### MongoDB
-![Data in database](Pictures/Mongo.jpg)
-
-**Now you need to follow the steps below:**
-
 • Clone this repository to your computer. To do this, run a command prompt and type
 ```
-git clone https://github.com/S-Stepanov-1/GoIT_WEB_HW_10.git
+git clone https://github.com/S-Stepanov-1/GoIT_WEB_HW_13_part_1.git
 ```
-• Then you need to install the dependencies:
+• Then you need to go to the project directory and install the dependencies:
 ```
+cd hw_10_website
 poetry install
 ```
-The site is configured to work with a Postgres database. Therefore, you will also need access to this database. This can be done, for example, by running a **`Docker container`**: 
+• The site is configured to work with a Postgres database. Therefore, you will also need access to this database. This can be done, for example, by running a **`Docker container`**: 
 ```
 docker run --name container_name -p 5432:5432 -e POSTGRES_PASSWORD=your_secret_password_here -d postgres.
 ```
 
 Instead of `container_name` and `your_secret_password_here`, you need to specify the name of the container and its password, respectively. 
-After that you need to create a `config.ini` file in the project folder. This file should have the following path `hw_10_website/config.ini` In this file specify passwords for access to the database and the name of the database. (see the photo below).
+After that you need to create a `config.ini` file in the project folder. This file should have the following path `hw_10_website/config.ini` In this file specify passwords for access to the database and the name of the database.
 
-### config.ini
-![config_structure](Pictures/config.jpg)
+```dotenv
+MONGO_USER = mongo_user
+MONGO_PASS = mongo_user_password
+
+POSTGRESQL_USER = postgres_user
+POSTGRESQL_PASS = your_postgres_password
+POSTGRESQL_HOST = 127.0.0.1
+POSTGRESQL_PORT = postgres_port (e.g. 5432; you specified it by running Docker container)
+
+MAIL_USERNAME = your_email_address
+MAIL_PASSWORD = your_enail_password
+MAIL_FROM = your_email_address
+MAIL_SERVER = your_mail_server
 
 
-### **`Note that you must run all of the following commands in the console from the hw_10_website folder`**
+SECRET_KEY = Django_secret_key
+```
+
+
+### `Note that you must run all of the following commands in the console from the hw_10_website folder`
 
 
 • You can now perform the migrations. This will create tables in your PostgreSQL database:
@@ -89,6 +84,7 @@ python manage.py migrate
 ```
 python -m  utils.custom_migration 
 ```
+If you don't have any data, you can simply populate your site after the server is up and running.
 
 • Now you can start the server and access the site at 127.0.0.1:8000
 ```
@@ -102,3 +98,22 @@ python manage.py runserver
 
 ### Author's profile
 ![profile](Pictures/profile.jpg)
+
+
+## Forgot password?
+
+If the user has forgotten the password, she/he just needs to click at "Forgot password?". 
+
+<img src="Pictures/fotgot_password.jpg" alt="API" height="300">
+
+After that it is necessary to enter her/his e-mail in the form, an e-mail will be sent to this e-mail address with a link to the page for setting a new password.
+
+<img src="Pictures/password_reset.jpg" alt="API" height="300">
+
+
+### Mail
+<img src="Pictures/reset_mail.jpg" alt="API" height="300">
+
+After entering the new password, it will be resaved in the database and the user will be able to use it at the next login.
+
+<img src="Pictures/enter_new_password.jpg" alt="API" height="300">
