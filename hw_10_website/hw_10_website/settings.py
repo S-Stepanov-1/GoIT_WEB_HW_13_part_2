@@ -10,23 +10,32 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
-import configparser
 import os
 
+from pathlib import Path
+from dotenv import load_dotenv
 
-current_folder = os.path.dirname(os.path.abspath(__file__))
-parent_folder = os.path.dirname(current_folder)
-
-init_file = os.path.join(parent_folder, "config.ini")
-
-
-config = configparser.ConfigParser()
-config.read(init_file)
+load_dotenv()
 
 
-postgres_user = config.get("DB", "postgresql_user")
-postgres_password = config.get("DB", "postgresql_pass")
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ.get("MAIL_SERVER")
+EMAIL_PORT = 465
+EMAIL_STARTTLS = False
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = os.environ.get("MAIL_USERNAME")
+EMAIL_HOST_PASSWORD = os.environ.get("MAIL_PASSWORD")
+DEFAULT_FROM_EMAIL = os.environ.get("MAIL_FROM")
+
+POSTGRESQL_USER = os.environ.get("POSTGRESQL_USER")
+POSTGRESQL_PASS = os.environ.get("POSTGRESQL_PASS")
+POSTGRESQL_HOST = os.environ.get("POSTGRESQL_HOST")
+POSTGRESQL_PORT = os.environ.get("POSTGRESQL_PORT")
+
+MONGO_USER = os.environ.get("MONGO_USER")
+MONGO_PASS = os.environ.get("MONGO_PASS")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,7 +45,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-qgm^+emasr6^g3qf*b)_=)xk%(jvan9^0xspup%s4*-3a#88d&'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -103,10 +112,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
-        'USER': postgres_user,
-        'PASSWORD': postgres_password,
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'USER': POSTGRESQL_USER,
+        'PASSWORD': POSTGRESQL_PASS,
+        'HOST': POSTGRESQL_HOST,
+        'PORT': POSTGRESQL_PORT
     }
 }
 

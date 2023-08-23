@@ -13,6 +13,7 @@ pillow = "^10.0.0"
 pymongo = "^4.4.1"
 django-allauth = "^0.54.0"
 psycopg2 = "^2.9.7"
+python-dotenv = "^1.0.0"
 
 
 [build-system]

@@ -15,6 +15,10 @@ class LoginForm(AuthenticationForm):
 class SignUpForm(UserCreationForm):
     username = forms.CharField(max_length=16, required=True, widget=forms.TextInput(attrs={"class": "form-control"}))
 
+    email = forms.EmailField(max_length=100,
+                             required=True,
+                             widget=forms.TextInput())
+
     password1 = forms.CharField(max_length=16, required=True,
                                 widget=forms.PasswordInput(attrs={"class": "form-control"}))
 
@@ -23,4 +27,4 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2']
+        fields = ['username', 'email', 'password1', 'password2']

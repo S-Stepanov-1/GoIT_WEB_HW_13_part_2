@@ -1,9 +1,12 @@
 import os
 import django
-import configparser
 
 from datetime import datetime
 from pymongo import MongoClient
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hw_10_website.settings")
 django.setup()
@@ -11,17 +14,8 @@ django.setup()
 from quotes.models import Quote, Tag, Author  # noqa
 
 # ----------- Connection to DB ------------
-current_folder = os.path.dirname(os.path.abspath(__file__))
-parent_folder = os.path.dirname(current_folder)
-
-init_file = os.path.join(parent_folder, "config.ini")
-
-
-config = configparser.ConfigParser()
-config.read(init_file)
-
-mongo_user = config.get('DB', 'mongo_user')
-mongodb_pass = config.get('DB', 'mongo_pass')
+mongo_user = os.environ.get("MONGO_USER")
+mongodb_pass = os.environ.get("MONGO_PASS")
 
 
 client = MongoClient(f"mongodb+srv://{mongo_user}:{mongodb_pass}@stepanovdb.codnmzv.mongodb.net/")
